@@ -1,11 +1,3 @@
-"""
-Driver list script.
-.. moduleauthor::
-    Luis Pereira  <luis.pereira@indt.org.br>
-    Lahis Almeida <lahis.almeida@indt.org.br>
-Usage:
-    $ python .\driver_list.py
-"""
 import wmi
 from datetime import datetime
 import json
@@ -200,39 +192,11 @@ def list_intel_drivers():
     return json.dumps(result, ensure_ascii=False, indent=4), len(driver_count)
 
 
-def json_to_csv(csv_file_name):
-    # Sets the full path to the file inside the “results” folder
-    results_dir = os.path.join(os.path.dirname(__file__), "../results")
-    os.makedirs(results_dir, exist_ok=True)  # Create the 'results' folder if it doesn't exist
-
-    # Full path of the CSV file
-    csv_file_path = os.path.join(results_dir, f"{csv_file_name}.csv")
-    # Converting JSON to CSV
-    with open(csv_file_path, mode="w", newline="") as file:
-        writer = csv.writer(file)
-
-        # Write the JSON keys as headers
-        writer.writerow(json_result.keys())
-
-        # Write the values from the JSON in the next line
-        writer.writerow(json_result.values())
-    print(f"JSON converted to CSV in the file {csv_file_path}")
-
 
 if __name__ == '__main__':
     # Get the drivers found and the quantity of drivers
     drivers_found, quantity_drivers = list_intel_drivers()
     # Parse the JSON result
     json_result = json.loads(drivers_found)
-
-    # 3. Converter os dados para CSV
-    csv_file_path = 'results/driver_found.csv'  # Caminho para o arquivo CSV na pasta 'results'
-    # Call the json_to_csv function to convert the data to CSV
-    json_to_csv(csv_file_name="Driver_found")
-    # system = wmi.WMI().Win32_OperatingSystem()[0]
-    # print("Propriedades disponíveis no objeto:")
-    # for prop in system.properties:
-    #     print(prop)
-    # Print the drivers found and the quantity of drivers
     print(drivers_found)
     print("The number of drivers is:", quantity_drivers)
